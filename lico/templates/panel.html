@@ -3,11 +3,105 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Hola Mundo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LicoControl - Licorería "El Cruce"</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Hola Mundo!</h1>
-    <p>Este es mi primer archivo HTML.</p>
-    <link rel="stylesheet" href="{% static "style.css" %}">
+    <div class="container">
+        <!-- Sidebar Elegante -->
+        <div class="sidebar">
+            <div class="logo">
+                <h1>LicoControl</h1>
+                <p>Licorería "El Cruce"</p>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item active">
+                    <i>📊</i> Dashboard
+                </li>
+                <li class="nav-item">
+                    <i>🍷</i> Productos
+                </li>
+                <li class="nav-item">
+                    <i>💰</i> Ventas
+                </li>
+                <li class="nav-item">
+                    <i>📦</i> Inventario
+                </li>
+                <li class="nav-item">
+                    <i>👥</i> Clientes
+                </li>
+                <li class="nav-item">
+                    <i>📈</i> Reportes
+                </li>
+                <li class="nav-item">
+                    <i>⚙️</i> Configuración
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Main Content Elegante -->
+        <div class="main-content">
+            <div class="header">
+                <h2>Dashboard</h2>
+                <div class="user-info">
+                    <span>Administrador</span>
+                    <div class="user-avatar">A</div>
+                </div>
+            </div>
+            
+            <!-- Cards del Dashboard -->
+            <div class="dashboard-cards">
+                <div class="card fade-in">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-value">$12,458</div>
+                            <div class="card-title">Ventas del Mes</div>
+                        </div>
+                        <div class="card-icon sales">💰</div>
+                    </div>
+                    <div class="card-trend trend-up">↑ 12% vs mes anterior</div>
+                </div>
+                
+                <div class="card fade-in">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-value">342</div>
+                            <div class="card-title">Productos en Stock</div>
+                        </div>
+                        <div class="card-icon inventory">📦</div>
+                    </div>
+                    <div class="card-trend trend-down">↓ 5% productos bajos</div>
+                </div>
+                
+                <div class="card fade-in">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-value">28</div>
+                            <div class="card-title">Pedidos Pendientes</div>
+                        </div>
+                        <div class="card-icon products">🍷</div>
+                    </div>
+                    <div class="card-trend trend-up">↑ 3 nuevos hoy</div>
+                </div>
+                
+                <div class="card fade-in">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-value">156</div>
+                            <div class="card-title">Clientes Activos</div>
+                        </div>
+                        <div class="card-icon customers">👥</div>
+                    </div>
+                    <div class="card-trend trend-up">↑ 8 nuevos este mes</div>
+                </div>
+            </div>
+            
+            <!-- Contenido adicional aquí -->
+            <h1>¡Bienvenido a LicoControl!</h1>
+            <p>Sistema de gestión elegante para Licorería "El Cruce"</p>
+        </div>
+    </div>
 </body>
 </html>
