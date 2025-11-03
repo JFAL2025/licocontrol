@@ -1,0 +1,732 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Inventario - LicoControl</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar Elegante -->
+        <div class="sidebar">
+            <div class="logo">
+                <h1>LicoControl</h1>
+                <p>Licorería "El Cruce"</p>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item" data-module="dashboard">
+                    <i class="fas fa-chart-line"></i> Dashboard
+                </li>
+                <li class="nav-item active" data-module="inventory">  <!-- ← CORREGIDO -->
+                    <i class="fas fa-boxes"></i> Inventario
+                </li>
+                <li class="nav-item" data-module="sales">
+                    <i class="fas fa-cash-register"></i> Ventas
+                </li>
+                <li class="nav-item" data-module="reports">
+                    <i class="fas fa-chart-bar"></i> Reportes
+                </li>
+                <li class="nav-item" data-module="products">
+                    <i class="fas fa-wine-bottle"></i> Productos
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Main Content Elegante -->
+        <div class="main-content">
+            <div class="header">
+                <h2>Gestión de Inventario</h2>
+                <div class="user-info">
+                    <span>Administrador - Licorería "El Cruce"</span>
+                    <div class="user-avatar">A</div>
+                </div>
+            </div>
+            
+            <!-- Módulo: Gestión de Inventario -->
+            <div class="module-section active">
+                <!-- Barra de Herramientas -->
+                <div class="toolbar">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="search-inventory" placeholder="Buscar producto...">
+                    </div>
+                    <div class="toolbar-buttons">
+                        <button class="btn btn-primary" id="btn-nuevo-producto">
+                            <i class="fas fa-plus"></i> Nuevo Producto
+                        </button>
+                        <button class="btn btn-success" id="btn-entrada-stock">
+                            <i class="fas fa-file-import"></i> Entrada de Stock
+                        </button>
+                        <button class="btn btn-warning" id="btn-exportar-inventario">
+                            <i class="fas fa-file-export"></i> Exportar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filtros Rápidos -->
+                <div class="filters">
+                    <div class="filter-group">
+                        <label>Filtrar por:</label>
+                        <select class="filter-select" id="filter-category">
+                            <option value="">Todas las categorías</option>
+                            <option value="whisky">Whisky</option>
+                            <option value="vino">Vino</option>
+                            <option value="vodka">Vodka</option>
+                            <option value="ron">Ron</option>
+                            <option value="cerveza">Cerveza</option>
+                            <option value="tequila">Tequila</option>
+                        </select>
+                        <select class="filter-select" id="filter-status">
+                            <option value="">Todos los estados</option>
+                            <option value="in-stock">En Stock</option>
+                            <option value="low-stock">Stock Bajo</option>
+                            <option value="out-of-stock">Sin Stock</option>
+                        </select>
+                        <button class="btn btn-secondary" id="btn-limpiar-filtros">
+                            <i class="fas fa-times"></i> Limpiar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tabla de Control de Inventario -->
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3>Control de Inventario</h3>
+                        <div class="inventory-stats">
+                            <span class="stat-item">
+                                <i class="fas fa-box" style="color: var(--success-color);"></i>
+                                <strong id="total-productos">6</strong> Productos
+                            </span>
+                            <span class="stat-item">
+                                <i class="fas fa-exclamation-triangle" style="color: var(--warning-color);"></i>
+                                <strong id="total-alertas">3</strong> Alertas
+                            </span>
+                            <span class="stat-item">
+                                <i class="fas fa-dollar-sign" style="color: var(--primary-color);"></i>
+                                <strong>$45,200,000</strong> Valor Total
+                            </span>
+                        </div>
+                    </div>
+                    <table id="tabla-inventario">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Categoría</th>
+                                <th>Stock Actual</th>
+                                <th>Stock Mínimo</th>
+                                <th>Estado</th>
+                                <th>Última Actualización</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-category="whisky" data-stock="5">
+                                <td>
+                                    <div class="product-cell">
+                                        <div class="product-avatar whisky">
+                                            <i class="fas fa-wine-bottle"></i>
+                                        </div>
+                                        <span>Whisky Johnnie Walker Red Label</span>
+                                    </div>
+                                </td>
+                                <td><span class="badge badge-whisky">Whisky</span></td>
+                                <td>5</td>
+                                <td>10</td>
+                                <td><span class="status out-of-stock">Crítico</span></td>
+                                <td>15/10/2023</td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm btn-editar" data-id="1">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-success btn-sm btn-agregar-stock" data-id="1">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                    <button class="btn btn-danger btn-sm btn-eliminar" data-id="1">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr data-category="vino" data-stock="8">
+                                <td>
+                                    <div class="product-cell">
+                                        <div class="product-avatar vino">
+                                            <i class="fas fa-wine-glass-alt"></i>
+                                        </div>
+                                        <span>Vino Casillero del Diablo</span>
+                                    </div>
+                                </td>
+                                <td><span class="badge badge-vino">Vino Tinto</span></td>
+                                <td>8</td>
+                                <td>15</td>
+                                <td><span class="status low-stock">Bajo</span></td>
+                                <td>16/10/2023</td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm btn-editar" data-id="2">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-success btn-sm btn-agregar-stock" data-id="2">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                    <button class="btn btn-danger btn-sm btn-eliminar" data-id="2">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr data-category="vodka" data-stock="3">
+                                <td>
+                                    <div class="product-cell">
+                                        <div class="product-avatar vodka">
+                                            <i class="fas fa-cocktail"></i>
+                                        </div>
+                                        <span>Vodka Absolut</span>
+                                    </div>
+                                </td>
+                                <td><span class="badge badge-vodka">Vodka</span></td>
+                                <td>3</td>
+                                <td>8</td>
+                                <td><span class="status out-of-stock">Crítico</span></td>
+                                <td>14/10/2023</td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm btn-editar" data-id="3">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-success btn-sm btn-agregar-stock" data-id="3">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                    <button class="btn btn-danger btn-sm btn-eliminar" data-id="3">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr data-category="ron" data-stock="25">
+                                <td>
+                                    <div class="product-cell">
+                                        <div class="product-avatar ron">
+                                            <i class="fas fa-glass-whiskey"></i>
+                                        </div>
+                                        <span>Ron Viejo de Caldas</span>
+                                    </div>
+                                </td>
+                                <td><span class="badge badge-ron">Ron</span></td>
+                                <td>25</td>
+                                <td>12</td>
+                                <td><span class="status in-stock">Normal</span></td>
+                                <td>17/10/2023</td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm btn-editar" data-id="4">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-success btn-sm btn-agregar-stock" data-id="4">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                    <button class="btn btn-danger btn-sm btn-eliminar" data-id="4">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr data-category="cerveza" data-stock="45">
+                                <td>
+                                    <div class="product-cell">
+                                        <div class="product-avatar cerveza">
+                                            <i class="fas fa-beer"></i>
+                                        </div>
+                                        <span>Cerveza Corona</span>
+                                    </div>
+                                </td>
+                                <td><span class="badge badge-cerveza">Cerveza</span></td>
+                                <td>45</td>
+                                <td>20</td>
+                                <td><span class="status in-stock">Normal</span></td>
+                                <td>16/10/2023</td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm btn-editar" data-id="5">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-success btn-sm btn-agregar-stock" data-id="5">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                    <button class="btn btn-danger btn-sm btn-eliminar" data-id="5">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr data-category="tequila" data-stock="12">
+                                <td>
+                                    <div class="product-cell">
+                                        <div class="product-avatar tequila">
+                                            <i class="fas fa-wine-bottle"></i>
+                                        </div>
+                                        <span>Tequila José Cuervo</span>
+                                    </div>
+                                </td>
+                                <td><span class="badge badge-tequila">Tequila</span></td>
+                                <td>12</td>
+                                <td>10</td>
+                                <td><span class="status low-stock">Bajo</span></td>
+                                <td>15/10/2023</td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm btn-editar" data-id="6">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-success btn-sm btn-agregar-stock" data-id="6">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                    <button class="btn btn-danger btn-sm btn-eliminar" data-id="6">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Formulario de Registro de Movimientos -->
+                <div class="form-container">
+                    <div class="form-header">
+                        <h3>Registro de Movimientos de Inventario</h3>
+                        <p>Registre entradas y salidas de productos del inventario</p>
+                    </div>
+                    
+                    <form id="form-movimiento">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="movement-type">Tipo de Movimiento</label>
+                                <select class="form-control" id="movement-type" name="tipo_movimiento" required>
+                                    <option value="">Seleccione tipo</option>
+                                    <option value="entry">Entrada de Stock</option>
+                                    <option value="exit">Salida de Stock</option>
+                                    <option value="adjustment">Ajuste de Inventario</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="movement-date">Fecha</label>
+                                <input type="date" class="form-control" id="movement-date" name="fecha" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="movement-product">Producto</label>
+                                <select class="form-control" id="movement-product" name="producto" required>
+                                    <option value="">Seleccione un producto</option>
+                                    <option value="1">Whisky Johnnie Walker Red Label</option>
+                                    <option value="2">Vino Casillero del Diablo</option>
+                                    <option value="3">Vodka Absolut</option>
+                                    <option value="4">Ron Viejo de Caldas</option>
+                                    <option value="5">Cerveza Corona</option>
+                                    <option value="6">Tequila José Cuervo</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="movement-quantity">Cantidad</label>
+                                <input type="number" class="form-control" id="movement-quantity" name="cantidad" min="1" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="movement-notes">Notas u Observaciones</label>
+                            <textarea class="form-control" id="movement-notes" name="notas" rows="3" placeholder="Descripción del movimiento..."></textarea>
+                        </div>
+                        
+                        <div class="form-buttons">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Registrar Movimiento
+                            </button>
+                            <button type="button" class="btn btn-secondary" id="btn-limpiar-movimiento">
+                                <i class="fas fa-times"></i> Limpiar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Formulario para Nuevo Producto (oculto inicialmente) -->
+                <div class="form-container" id="form-nuevo-producto" style="display: none;">
+                    <div class="form-header">
+                        <h3>Registrar Nuevo Producto</h3>
+                        <p>Complete la información del nuevo producto</p>
+                    </div>
+                    
+                    <form id="form-producto">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="product-name">Nombre del Producto *</label>
+                                <input type="text" class="form-control" id="product-name" name="nombre" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-category">Categoría *</label>
+                                <select class="form-control" id="product-category" name="categoria" required>
+                                    <option value="">Seleccione categoría</option>
+                                    <option value="whisky">Whisky</option>
+                                    <option value="vino">Vino</option>
+                                    <option value="vodka">Vodka</option>
+                                    <option value="ron">Ron</option>
+                                    <option value="cerveza">Cerveza</option>
+                                    <option value="tequila">Tequila</option>
+                                    <option value="licor">Licor</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="product-code">Código de Barras</label>
+                                <input type="text" class="form-control" id="product-code" name="codigo_barras" placeholder="Opcional">
+                            </div>
+                            <div class="form-group">
+                                <label for="product-brand">Marca</label>
+                                <input type="text" class="form-control" id="product-brand" name="marca" placeholder="Opcional">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="product-stock">Stock Inicial *</label>
+                                <input type="number" class="form-control" id="product-stock" name="stock" min="0" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-min-stock">Stock Mínimo *</label>
+                                <input type="number" class="form-control" id="product-min-stock" name="stock_minimo" min="1" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="product-cost">Precio de Costo *</label>
+                                <input type="number" class="form-control" id="product-cost" name="precio_costo" min="0" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-price">Precio de Venta *</label>
+                                <input type="number" class="form-control" id="product-price" name="precio_venta" min="0" step="0.01" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="product-description">Descripción</label>
+                            <textarea class="form-control" id="product-description" name="descripcion" rows="3" placeholder="Descripción del producto..."></textarea>
+                        </div>
+                        
+                        <div class="form-buttons">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save"></i> Guardar Producto
+                            </button>
+                            <button type="button" class="btn btn-secondary" id="btn-cancelar-producto">
+                                <i class="fas fa-times"></i> Cancelar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // ========== NAVEGACIÓN DEL SIDEBAR ==========
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            // Manejador de clic en items del menú
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const moduleId = this.getAttribute('data-module');
+                    
+                    // Navegar a la página correspondiente
+                    switch(moduleId) {
+                        case 'dashboard':
+                            window.location.href = "{% url 'panel' %}";
+                            break;
+                        case 'inventory':
+                            window.location.href = "{% url 'inventario' %}";
+                            break;
+                        case 'sales':
+                            window.location.href = "{% url 'registro_v' %}";
+                            break;
+                        case 'reports':
+                            window.location.href = "{% url 'reporte' %}";
+                            break;
+                        case 'products':
+                            window.location.href = "{% url 'catalogo' %}";
+                            break;
+                        default:
+                            console.log('Módulo no reconocido:', moduleId);
+                    }
+                });
+            });
+
+            // ========== VARIABLES GLOBALES ==========
+            const btnNuevoProducto = document.getElementById('btn-nuevo-producto');
+            const btnCancelarProducto = document.getElementById('btn-cancelar-producto');
+            const formNuevoProducto = document.getElementById('form-nuevo-producto');
+            const formMovimiento = document.getElementById('form-movimiento');
+            const formProducto = document.getElementById('form-producto');
+            const btnLimpiarMovimiento = document.getElementById('btn-limpiar-movimiento');
+            const searchInput = document.getElementById('search-inventory');
+            const filterCategory = document.getElementById('filter-category');
+            const filterStatus = document.getElementById('filter-status');
+            const btnLimpiarFiltros = document.getElementById('btn-limpiar-filtros');
+
+            let editingProduct = null;
+
+            // ========== GESTIÓN DE FORMULARIOS ==========
+            // Mostrar/ocultar formulario de nuevo producto
+            btnNuevoProducto.addEventListener('click', function() {
+                formNuevoProducto.style.display = 'block';
+                formNuevoProducto.scrollIntoView({ behavior: 'smooth' });
+                editingProduct = null;
+            });
+            
+            btnCancelarProducto.addEventListener('click', function() {
+                formNuevoProducto.style.display = 'none';
+                formProducto.reset();
+            });
+
+            // Limpiar formulario de movimiento
+            btnLimpiarMovimiento.addEventListener('click', function() {
+                formMovimiento.reset();
+                // Restablecer fecha actual
+                document.getElementById('movement-date').value = new Date().toISOString().split('T')[0];
+            });
+
+            // ========== MANEJO DE FORMULARIOS ==========
+            // Manejar envío del formulario de movimiento
+            formMovimiento.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const formData = new FormData(this);
+                const movimiento = {
+                    tipo: formData.get('tipo_movimiento'),
+                    fecha: formData.get('fecha'),
+                    producto: formData.get('producto'),
+                    cantidad: parseInt(formData.get('cantidad')),
+                    notas: formData.get('notas')
+                };
+                
+                // Validar movimiento
+                if (movimiento.tipo === 'exit') {
+                    const productoRow = document.querySelector(`tr[data-category="${movimiento.producto}"]`);
+                    if (productoRow) {
+                        const stockActual = parseInt(productoRow.querySelector('td:nth-child(3)').textContent);
+                        if (movimiento.cantidad > stockActual) {
+                            alert('No hay suficiente stock para realizar esta salida');
+                            return;
+                        }
+                    }
+                }
+                
+                console.log('Movimiento registrado:', movimiento);
+                
+                // Simular actualización de stock
+                if (movimiento.tipo === 'entry') {
+                    alert(`Entrada de ${movimiento.cantidad} unidades registrada exitosamente`);
+                } else if (movimiento.tipo === 'exit') {
+                    alert(`Salida de ${movimiento.cantidad} unidades registrada exitosamente`);
+                } else {
+                    alert('Ajuste de inventario registrado exitosamente');
+                }
+                
+                this.reset();
+                document.getElementById('movement-date').value = new Date().toISOString().split('T')[0];
+            });
+            
+            // Manejar envío del formulario de producto
+            formProducto.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const formData = new FormData(this);
+                const producto = {
+                    nombre: formData.get('nombre'),
+                    categoria: formData.get('categoria'),
+                    codigo_barras: formData.get('codigo_barras'),
+                    marca: formData.get('marca'),
+                    stock: parseInt(formData.get('stock')),
+                    stock_minimo: parseInt(formData.get('stock_minimo')),
+                    precio_costo: parseFloat(formData.get('precio_costo')),
+                    precio_venta: parseFloat(formData.get('precio_venta')),
+                    descripcion: formData.get('descripcion')
+                };
+                
+                // Validar precios
+                if (producto.precio_venta <= producto.precio_costo) {
+                    alert('El precio de venta debe ser mayor al precio de costo');
+                    return;
+                }
+                
+                if (editingProduct) {
+                    console.log('Editando producto:', producto);
+                    alert('Producto actualizado exitosamente');
+                } else {
+                    console.log('Nuevo producto:', producto);
+                    alert('Producto registrado exitosamente');
+                }
+                
+                this.reset();
+                formNuevoProducto.style.display = 'none';
+                editingProduct = null;
+            });
+
+            // ========== GESTIÓN DE TABLA DE INVENTARIO ==========
+            // Botones de acción en productos
+            document.addEventListener('click', function(e) {
+                // Editar producto
+                if (e.target.closest('.btn-editar')) {
+                    const btn = e.target.closest('.btn-editar');
+                    const productId = btn.getAttribute('data-id');
+                    const fila = btn.closest('tr');
+                    const productName = fila.cells[0].querySelector('span').textContent;
+                    
+                    // Simular carga de datos del producto
+                    document.getElementById('product-name').value = productName;
+                    document.getElementById('product-category').value = fila.getAttribute('data-category');
+                    
+                    formNuevoProducto.style.display = 'block';
+                    formNuevoProducto.scrollIntoView({ behavior: 'smooth' });
+                    editingProduct = productId;
+                }
+                
+                // Agregar stock
+                if (e.target.closest('.btn-agregar-stock')) {
+                    const btn = e.target.closest('.btn-agregar-stock');
+                    const productId = btn.getAttribute('data-id');
+                    const fila = btn.closest('tr');
+                    const productName = fila.cells[0].querySelector('span').textContent;
+                    
+                    const cantidad = prompt(`¿Cuántas unidades desea agregar a ${productName}?`);
+                    
+                    if (cantidad && !isNaN(cantidad) && cantidad > 0) {
+                        const stockActual = parseInt(fila.cells[2].textContent);
+                        const nuevoStock = stockActual + parseInt(cantidad);
+                        fila.cells[2].textContent = nuevoStock;
+                        
+                        // Actualizar estado del stock
+                        actualizarEstadoStock(fila, nuevoStock, parseInt(fila.cells[3].textContent));
+                        
+                        alert(`Se agregaron ${cantidad} unidades a ${productName}. Nuevo stock: ${nuevoStock}`);
+                        actualizarEstadisticas();
+                    }
+                }
+                
+                // Eliminar producto
+                if (e.target.closest('.btn-eliminar')) {
+                    const btn = e.target.closest('.btn-eliminar');
+                    const productId = btn.getAttribute('data-id');
+                    const fila = btn.closest('tr');
+                    const productName = fila.cells[0].querySelector('span').textContent;
+                    
+                    if (confirm(`¿Está seguro de eliminar el producto: ${productName}?`)) {
+                        fila.remove();
+                        alert(`Producto ${productName} eliminado`);
+                        actualizarEstadisticas();
+                    }
+                }
+            });
+
+            // ========== FILTROS Y BÚSQUEDA ==========
+            // Búsqueda en tiempo real
+            searchInput.addEventListener('input', function() {
+                aplicarFiltros();
+            });
+
+            // Filtros por categoría y estado
+            filterCategory.addEventListener('change', aplicarFiltros);
+            filterStatus.addEventListener('change', aplicarFiltros);
+
+            // Limpiar filtros
+            btnLimpiarFiltros.addEventListener('click', function() {
+                searchInput.value = '';
+                filterCategory.value = '';
+                filterStatus.value = '';
+                aplicarFiltros();
+            });
+
+            function aplicarFiltros() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const categoryFilter = filterCategory.value;
+                const statusFilter = filterStatus.value;
+                const filas = document.querySelectorAll('#tabla-inventario tbody tr');
+                
+                let productosVisibles = 0;
+                
+                filas.forEach(fila => {
+                    const productName = fila.cells[0].querySelector('span').textContent.toLowerCase();
+                    const productCategory = fila.getAttribute('data-category');
+                    const stockValue = parseInt(fila.cells[2].textContent);
+                    const minStock = parseInt(fila.cells[3].textContent);
+                    
+                    let cardStatus = '';
+                    if (stockValue === 0) cardStatus = 'out-of-stock';
+                    else if (stockValue <= minStock) cardStatus = 'low-stock';
+                    else cardStatus = 'in-stock';
+                    
+                    const showSearch = !searchTerm || productName.includes(searchTerm);
+                    const showCategory = !categoryFilter || productCategory === categoryFilter;
+                    const showStatus = !statusFilter || cardStatus === statusFilter;
+                    
+                    if (showSearch && showCategory && showStatus) {
+                        fila.style.display = '';
+                        productosVisibles++;
+                    } else {
+                        fila.style.display = 'none';
+                    }
+                });
+                
+                document.getElementById('total-productos').textContent = productosVisibles;
+            }
+
+            // ========== FUNCIONES AUXILIARES ==========
+            function actualizarEstadoStock(fila, stockActual, stockMinimo) {
+                const statusCell = fila.cells[4];
+                let nuevoEstado = '';
+                let nuevaClase = '';
+                
+                if (stockActual === 0) {
+                    nuevoEstado = 'Sin Stock';
+                    nuevaClase = 'out-of-stock';
+                } else if (stockActual <= stockMinimo) {
+                    nuevoEstado = stockActual <= stockMinimo * 0.5 ? 'Crítico' : 'Bajo';
+                    nuevaClase = 'low-stock';
+                } else {
+                    nuevoEstado = 'Normal';
+                    nuevaClase = 'in-stock';
+                }
+                
+                statusCell.innerHTML = `<span class="status ${nuevaClase}">${nuevoEstado}</span>`;
+            }
+
+            function actualizarEstadisticas() {
+                const filas = document.querySelectorAll('#tabla-inventario tbody tr');
+                let totalProductos = 0;
+                let totalAlertas = 0;
+                
+                filas.forEach(fila => {
+                    if (fila.style.display !== 'none') {
+                        totalProductos++;
+                        const status = fila.cells[4].textContent.trim();
+                        if (status === 'Crítico' || status === 'Bajo') {
+                            totalAlertas++;
+                        }
+                    }
+                });
+                
+                document.getElementById('total-productos').textContent = totalProductos;
+                document.getElementById('total-alertas').textContent = totalAlertas;
+            }
+
+            // ========== INICIALIZACIÓN ==========
+            // Establecer fecha actual por defecto
+            document.getElementById('movement-date').value = new Date().toISOString().split('T')[0];
+            
+            // Calcular estadísticas iniciales
+            actualizarEstadisticas();
+
+            console.log('Módulo de Inventario LicoControl - Cargado correctamente');
+        });
+
+        // ========== FUNCIONES GLOBALES ==========
+        function navigateTo(url) {
+            window.location.href = url;
+        }
+    </script>
+</body>
+</html>

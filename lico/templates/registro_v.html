@@ -1,0 +1,470 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Ventas - LicoControl</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar Elegante -->
+        <div class="sidebar">
+            <div class="logo">
+                <h1>LicoControl</h1>
+                <p>Licorería "El Cruce"</p>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item" data-module="dashboard">
+                    <i class="fas fa-chart-line"></i> Dashboard
+                </li>
+                <li class="nav-item" data-module="inventory">
+                    <i class="fas fa-boxes"></i> Inventario
+                </li>
+                <li class="nav-item active" data-module="sales">
+                    <i class="fas fa-cash-register"></i> Ventas
+                </li>
+                <li class="nav-item" data-module="reports">
+                    <i class="fas fa-chart-bar"></i> Reportes
+                </li>
+                <li class="nav-item" data-module="products">
+                    <i class="fas fa-wine-bottle"></i> Productos
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Main Content Elegante -->
+        <div class="main-content">
+            <div class="header">
+                <h2>Registro de Ventas</h2>
+                <div class="user-info">
+                    <span>Administrador - Licorería "El Cruce"</span>
+                    <div class="user-avatar">A</div>
+                </div>
+            </div>
+            
+            <!-- Módulo: Registro de Ventas -->
+            <div class="module-section active">
+                <div class="quick-sale-panel">
+                    <div class="form-header">
+                        <h3>Venta Rápida</h3>
+                        <p>Interfaz optimizada para transacciones rápidas</p>
+                    </div>
+                    
+                    <!-- Formulario para agregar productos -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="sale-product">Buscar Producto</label>
+                            <input type="text" class="form-control" id="sale-product" placeholder="Código o nombre del producto">
+                        </div>
+                        <div class="form-group">
+                            <label for="sale-quantity">Cantidad</label>
+                            <input type="number" class="form-control" id="sale-quantity" value="1" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label>&nbsp;</label>
+                            <button class="btn btn-primary" id="btn-agregar-producto" style="margin-top: 8px;">
+                                <i class="fas fa-plus"></i> Agregar
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Tabla de productos en la venta actual -->
+                    <div class="table-container">
+                        <table id="tabla-venta-actual">
+                            <thead>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Precio Unitario</th>
+                                    <th>Cantidad</th>
+                                    <th>Subtotal</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cuerpo-tabla-venta">
+                                <!-- Los productos se agregarán dinámicamente aquí -->
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3" style="text-align: right; font-weight: bold;">Total:</td>
+                                    <td id="total-venta" style="font-weight: bold; color: var(--primary-color);">$0</td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    
+                    <!-- Resumen y pago -->
+                    <div class="sale-summary">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="sale-total">Total Venta</label>
+                                <div class="sale-total" id="display-total">$0</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="sale-payment">Pago Recibido</label>
+                                <input type="number" class="form-control" id="sale-payment" placeholder="0" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label for="sale-change">Cambio</label>
+                                <input type="text" class="form-control" id="sale-change" placeholder="$0" readonly>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="payment-method">Método de Pago</label>
+                                <select class="form-control" id="payment-method">
+                                    <option value="efectivo">Efectivo</option>
+                                    <option value="tarjeta">Tarjeta</option>
+                                    <option value="transferencia">Transferencia</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="sale-notes">Notas</label>
+                                <input type="text" class="form-control" id="sale-notes" placeholder="Observaciones de la venta">
+                            </div>
+                        </div>
+                        <button class="btn btn-success" id="btn-finalizar-venta" style="width: 100%; padding: 15px; font-size: 1.1rem;">
+                            <i class="fas fa-check-circle"></i> Finalizar Venta
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Historial de ventas recientes -->
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3>Historial de Ventas Recientes</h3>
+                        <div>
+                            <button class="btn btn-primary">
+                                <i class="fas fa-filter"></i> Filtrar
+                            </button>
+                            <button class="btn btn-secondary">
+                                <i class="fas fa-sync"></i> Actualizar
+                            </button>
+                        </div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th># Venta</th>
+                                <th>Fecha y Hora</th>
+                                <th>Productos</th>
+                                <th>Total</th>
+                                <th>Método de Pago</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#00125</td>
+                                <td>17/10/2023 18:30</td>
+                                <td>Whisky Johnnie Walker (1)</td>
+                                <td>$50,000</td>
+                                <td><span class="badge badge-success">Efectivo</span></td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm btn-ver-detalle">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-danger btn-sm">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#00124</td>
+                                <td>17/10/2023 17:45</td>
+                                <td>Vino Casillero (2), Vodka Absolut (1)</td>
+                                <td>$85,000</td>
+                                <td><span class="badge badge-primary">Tarjeta</span></td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm btn-ver-detalle">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-danger btn-sm">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#00123</td>
+                                <td>17/10/2023 16:20</td>
+                                <td>Ron Viejo de Caldas (1), Cerveza Corona (6)</td>
+                                <td>$65,000</td>
+                                <td><span class="badge badge-success">Efectivo</span></td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm btn-ver-detalle">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-danger btn-sm">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // ========== NAVEGACIÓN DEL SIDEBAR ==========
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            // Manejador de clic en items del menú
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const moduleId = this.getAttribute('data-module');
+                    
+                    // Navegar a la página correspondiente
+                    switch(moduleId) {
+                        case 'dashboard':
+                            window.location.href = "{% url 'panel' %}";
+                            break;
+                        case 'inventory':
+                            window.location.href = "{% url 'inventario' %}";
+                            break;
+                        case 'sales':
+                            window.location.href = "{% url 'registro_v' %}";
+                            break;
+                        case 'reports':
+                            window.location.href = "{% url 'reporte' %}";
+                            break;
+                        case 'products':
+                            window.location.href = "{% url 'catalogo' %}";
+                            break;
+                        default:
+                            console.log('Módulo no reconocido:', moduleId);
+                    }
+                });
+            });
+
+            // ========== VARIABLES GLOBALES ==========
+            let carrito = [];
+            let totalVenta = 0;
+
+            // Base de datos de productos (simulada)
+            const productos = [
+                { id: 1, nombre: "Whisky Johnnie Walker Red Label", precio: 50000, stock: 5 },
+                { id: 2, nombre: "Vino Casillero del Diablo", precio: 25000, stock: 8 },
+                { id: 3, nombre: "Vodka Absolut", precio: 30000, stock: 3 },
+                { id: 4, nombre: "Ron Viejo de Caldas", precio: 28000, stock: 25 },
+                { id: 5, nombre: "Cerveza Corona", precio: 5000, stock: 45 },
+                { id: 6, nombre: "Tequila José Cuervo", precio: 35000, stock: 12 }
+            ];
+
+            // ========== FUNCIONALIDAD DE VENTA RÁPIDA ==========
+            const inputProducto = document.getElementById('sale-product');
+            const inputCantidad = document.getElementById('sale-quantity');
+            const btnAgregar = document.getElementById('btn-agregar-producto');
+            const cuerpoTabla = document.getElementById('cuerpo-tabla-venta');
+            const displayTotal = document.getElementById('display-total');
+            const totalVentaElement = document.getElementById('total-venta');
+            const inputPago = document.getElementById('sale-payment');
+            const inputCambio = document.getElementById('sale-change');
+            const btnFinalizar = document.getElementById('btn-finalizar-venta');
+
+            // Búsqueda de productos
+            inputProducto.addEventListener('input', function() {
+                const busqueda = this.value.toLowerCase();
+                if (busqueda.length > 2) {
+                    // Aquí podrías mostrar sugerencias en un dropdown
+                    console.log('Buscando:', busqueda);
+                }
+            });
+
+            // Agregar producto al carrito
+            btnAgregar.addEventListener('click', function() {
+                const busqueda = inputProducto.value.trim();
+                const cantidad = parseInt(inputCantidad.value) || 1;
+
+                if (!busqueda) {
+                    alert('Por favor, ingrese un producto');
+                    return;
+                }
+
+                // Buscar producto (simulación)
+                const productoEncontrado = productos.find(p => 
+                    p.nombre.toLowerCase().includes(busqueda.toLowerCase())
+                );
+
+                if (productoEncontrado) {
+                    if (cantidad > productoEncontrado.stock) {
+                        alert(`Stock insuficiente. Solo hay ${productoEncontrado.stock} unidades disponibles.`);
+                        return;
+                    }
+
+                    // Verificar si el producto ya está en el carrito
+                    const productoExistente = carrito.find(item => item.id === productoEncontrado.id);
+                    
+                    if (productoExistente) {
+                        productoExistente.cantidad += cantidad;
+                        productoExistente.subtotal = productoExistente.cantidad * productoExistente.precio;
+                    } else {
+                        carrito.push({
+                            id: productoEncontrado.id,
+                            nombre: productoEncontrado.nombre,
+                            precio: productoEncontrado.precio,
+                            cantidad: cantidad,
+                            subtotal: cantidad * productoEncontrado.precio
+                        });
+                    }
+
+                    actualizarCarrito();
+                    inputProducto.value = '';
+                    inputCantidad.value = 1;
+                    inputProducto.focus();
+                } else {
+                    alert('Producto no encontrado');
+                }
+            });
+
+            // Actualizar carrito y totales
+            function actualizarCarrito() {
+                cuerpoTabla.innerHTML = '';
+                totalVenta = 0;
+
+                carrito.forEach((producto, index) => {
+                    totalVenta += producto.subtotal;
+                    
+                    const fila = document.createElement('tr');
+                    fila.innerHTML = `
+                        <td>${producto.nombre}</td>
+                        <td>$${producto.precio.toLocaleString()}</td>
+                        <td>
+                            <input type="number" value="${producto.cantidad}" min="1" 
+                                   class="cantidad-input" data-index="${index}" 
+                                   style="width: 60px; padding: 5px;">
+                        </td>
+                        <td>$${producto.subtotal.toLocaleString()}</td>
+                        <td>
+                            <button class="btn btn-danger btn-sm btn-eliminar" data-index="${index}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    `;
+                    cuerpoTabla.appendChild(fila);
+                });
+
+                // Actualizar totales
+                totalVentaElement.textContent = `$${totalVenta.toLocaleString()}`;
+                displayTotal.textContent = `$${totalVenta.toLocaleString()}`;
+
+                // Actualizar cálculo de cambio
+                calcularCambio();
+            }
+
+            // Eliminar producto del carrito
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.btn-eliminar')) {
+                    const index = e.target.closest('.btn-eliminar').getAttribute('data-index');
+                    carrito.splice(index, 1);
+                    actualizarCarrito();
+                }
+            });
+
+            // Actualizar cantidad desde input
+            document.addEventListener('change', function(e) {
+                if (e.target.classList.contains('cantidad-input')) {
+                    const index = e.target.getAttribute('data-index');
+                    const nuevaCantidad = parseInt(e.target.value) || 1;
+                    
+                    if (nuevaCantidad > 0) {
+                        carrito[index].cantidad = nuevaCantidad;
+                        carrito[index].subtotal = carrito[index].cantidad * carrito[index].precio;
+                        actualizarCarrito();
+                    }
+                }
+            });
+
+            // Calcular cambio
+            function calcularCambio() {
+                const pago = parseFloat(inputPago.value) || 0;
+                const cambio = pago - totalVenta;
+                
+                if (cambio >= 0) {
+                    inputCambio.value = `$${cambio.toLocaleString()}`;
+                    inputCambio.style.color = 'var(--success-color)';
+                } else {
+                    inputCambio.value = 'Pago insuficiente';
+                    inputCambio.style.color = 'var(--danger-color)';
+                }
+            }
+
+            inputPago.addEventListener('input', calcularCambio);
+
+            // Finalizar venta
+            btnFinalizar.addEventListener('click', function() {
+                if (carrito.length === 0) {
+                    alert('No hay productos en la venta');
+                    return;
+                }
+
+                const pago = parseFloat(inputPago.value) || 0;
+                if (pago < totalVenta) {
+                    alert('El pago es insuficiente para completar la venta');
+                    return;
+                }
+
+                const metodoPago = document.getElementById('payment-method').value;
+                const notas = document.getElementById('sale-notes').value;
+
+                // Simular procesamiento de venta
+                const ventaData = {
+                    productos: carrito,
+                    total: totalVenta,
+                    pago: pago,
+                    cambio: pago - totalVenta,
+                    metodoPago: metodoPago,
+                    notas: notas,
+                    fecha: new Date().toLocaleString()
+                };
+
+                console.log('Venta procesada:', ventaData);
+                
+                // Mostrar resumen
+                alert(`¡Venta completada exitosamente!\nTotal: $${totalVenta.toLocaleString()}\nCambio: $${(pago - totalVenta).toLocaleString()}`);
+                
+                // Limpiar carrito
+                carrito = [];
+                actualizarCarrito();
+                inputPago.value = '';
+                inputCambio.value = '$0';
+                document.getElementById('sale-notes').value = '';
+            });
+
+            // ========== FUNCIONALIDAD ADICIONAL ==========
+            // Tecla Enter para agregar producto
+            inputProducto.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    btnAgregar.click();
+                }
+            });
+
+            // Ver detalles de venta en historial
+            document.querySelectorAll('.btn-ver-detalle').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const fila = this.closest('tr');
+                    const numeroVenta = fila.cells[0].textContent;
+                    alert(`Mostrando detalles de la venta ${numeroVenta}`);
+                    // Aquí podrías abrir un modal con los detalles completos
+                });
+            });
+
+            console.log('Módulo de Ventas LicoControl - Cargado correctamente');
+        });
+
+        // ========== FUNCIONES GLOBALES ==========
+        function navigateTo(url) {
+            window.location.href = url;
+        }
+
+        function formatCurrency(amount) {
+            return '$' + amount.toLocaleString();
+        }
+    </script>
+</body>
+</html>

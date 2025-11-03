@@ -1,0 +1,524 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportes Analíticos - LicoControl</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar Elegante -->
+        <div class="sidebar">
+            <div class="logo">
+                <h1>LicoControl</h1>
+                <p>Licorería "El Cruce"</p>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item" data-module="dashboard">
+                    <i class="fas fa-chart-line"></i> Dashboard
+                </li>
+                <li class="nav-item" data-module="inventory">
+                    <i class="fas fa-boxes"></i> Inventario
+                </li>
+                <li class="nav-item" data-module="sales">
+                    <i class="fas fa-cash-register"></i> Ventas
+                </li>
+                <li class="nav-item active" data-module="reports">  <!-- ← CORREGIDO -->
+                    <i class="fas fa-chart-bar"></i> Reportes
+                </li>
+                <li class="nav-item" data-module="products">
+                    <i class="fas fa-wine-bottle"></i> Productos
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Main Content Elegante -->
+        <div class="main-content">
+            <div class="header">
+                <h2>Reportes Analíticos</h2>
+                <div class="user-info">
+                    <span>Administrador - Licorería "El Cruce"</span>
+                    <div class="user-avatar">A</div>
+                </div>
+            </div>
+            
+            <!-- Módulo: Reportes Analíticos -->
+            <div class="module-section active">
+                <!-- Cards de Métricas Principales -->
+                <div class="dashboard-cards">
+                    <div class="card fade-in">
+                        <div class="card-header">
+                            <div>
+                                <div class="card-value">$12,458,000</div>
+                                <div class="card-title">Ventas Totales Mes</div>
+                            </div>
+                            <div class="card-icon sales">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                        </div>
+                        <div class="card-trend trend-up">
+                            <i class="fas fa-arrow-up"></i> 12% vs mes anterior
+                        </div>
+                    </div>
+                    
+                    <div class="card fade-in">
+                        <div class="card-header">
+                            <div>
+                                <div class="card-value">45%</div>
+                                <div class="card-title">Participación Whisky</div>
+                            </div>
+                            <div class="card-icon inventory">
+                                <i class="fas fa-chart-pie"></i>
+                            </div>
+                        </div>
+                        <div class="card-trend trend-up">
+                            <i class="fas fa-arrow-up"></i> Categoría líder
+                        </div>
+                    </div>
+                    
+                    <div class="card fade-in">
+                        <div class="card-header">
+                            <div>
+                                <div class="card-value">18:00-20:00</div>
+                                <div class="card-title">Horario Pico</div>
+                            </div>
+                            <div class="card-icon products">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                        </div>
+                        <div class="card-trend trend-up">
+                            <i class="fas fa-arrow-up"></i> 35% ventas diarias
+                        </div>
+                    </div>
+                    
+                    <div class="card fade-in">
+                        <div class="card-header">
+                            <div>
+                                <div class="card-value">42%</div>
+                                <div class="card-title">Margen Promedio</div>
+                            </div>
+                            <div class="card-icon customers">
+                                <i class="fas fa-percentage"></i>
+                            </div>
+                        </div>
+                        <div class="card-trend trend-up">
+                            <i class="fas fa-arrow-up"></i> 2% vs mes anterior
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gráficos y Análisis Visual -->
+                <div class="charts-container">
+                    <div class="chart-row">
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h4>Ventas por Categoría</h4>
+                                <select class="chart-filter">
+                                    <option>Este Mes</option>
+                                    <option>Mes Anterior</option>
+                                    <option>Este Trimestre</option>
+                                </select>
+                            </div>
+                            <div class="chart-placeholder">
+                                <div class="chart-bars">
+                                    <div class="bar-container">
+                                        <div class="bar-label">Whisky</div>
+                                        <div class="bar" style="width: 45%">
+                                            <span class="bar-value">45%</span>
+                                        </div>
+                                    </div>
+                                    <div class="bar-container">
+                                        <div class="bar-label">Vino</div>
+                                        <div class="bar" style="width: 25%">
+                                            <span class="bar-value">25%</span>
+                                        </div>
+                                    </div>
+                                    <div class="bar-container">
+                                        <div class="bar-label">Vodka</div>
+                                        <div class="bar" style="width: 15%">
+                                            <span class="bar-value">15%</span>
+                                        </div>
+                                    </div>
+                                    <div class="bar-container">
+                                        <div class="bar-label">Ron</div>
+                                        <div class="bar" style="width: 10%">
+                                            <span class="bar-value">10%</span>
+                                        </div>
+                                    </div>
+                                    <div class="bar-container">
+                                        <div class="bar-label">Otros</div>
+                                        <div class="bar" style="width: 5%">
+                                            <span class="bar-value">5%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h4>Tendencia de Ventas</h4>
+                                <select class="chart-filter">
+                                    <option>Últimos 7 días</option>
+                                    <option>Últimos 30 días</option>
+                                    <option>Últimos 90 días</option>
+                                </select>
+                            </div>
+                            <div class="chart-placeholder">
+                                <div class="trend-chart">
+                                    <div class="trend-line">
+                                        <div class="point" style="left: 10%; bottom: 20%"></div>
+                                        <div class="point" style="left: 25%; bottom: 35%"></div>
+                                        <div class="point" style="left: 40%; bottom: 60%"></div>
+                                        <div class="point" style="left: 55%; bottom: 45%"></div>
+                                        <div class="point" style="left: 70%; bottom: 75%"></div>
+                                        <div class="point" style="left: 85%; bottom: 90%"></div>
+                                    </div>
+                                    <div class="trend-labels">
+                                        <span>Lun</span>
+                                        <span>Mar</span>
+                                        <span>Mié</span>
+                                        <span>Jue</span>
+                                        <span>Vie</span>
+                                        <span>Sáb</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tabla de Análisis de Rentabilidad -->
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3>Análisis de Rentabilidad por Producto</h3>
+                        <div>
+                            <select class="form-control" style="width: auto; display: inline-block;">
+                                <option>Este Mes</option>
+                                <option>Mes Anterior</option>
+                                <option>Este Trimestre</option>
+                            </select>
+                            <button class="btn btn-primary">
+                                <i class="fas fa-download"></i> Exportar
+                            </button>
+                        </div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Unidades Vendidas</th>
+                                <th>Ingresos</th>
+                                <th>Costo</th>
+                                <th>Ganancia</th>
+                                <th>Margen</th>
+                                <th>Recomendación</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Whisky Johnnie Walker Red Label</td>
+                                <td>45</td>
+                                <td>$2,250,000</td>
+                                <td>$1,350,000</td>
+                                <td>$900,000</td>
+                                <td class="trend-up">40%</td>
+                                <td><span class="badge badge-success">Mantener</span></td>
+                            </tr>
+                            <tr>
+                                <td>Vino Casillero del Diablo</td>
+                                <td>38</td>
+                                <td>$950,000</td>
+                                <td>$665,000</td>
+                                <td>$285,000</td>
+                                <td class="trend-up">30%</td>
+                                <td><span class="badge badge-success">Mantener</span></td>
+                            </tr>
+                            <tr>
+                                <td>Vodka Absolut</td>
+                                <td>32</td>
+                                <td>$960,000</td>
+                                <td>$576,000</td>
+                                <td>$384,000</td>
+                                <td class="trend-up">40%</td>
+                                <td><span class="badge badge-success">Mantener</span></td>
+                            </tr>
+                            <tr>
+                                <td>Cerveza Corona</td>
+                                <td>120</td>
+                                <td>$600,000</td>
+                                <td>$480,000</td>
+                                <td>$120,000</td>
+                                <td class="trend-down">20%</td>
+                                <td><span class="badge badge-warning">Revisar Precio</span></td>
+                            </tr>
+                            <tr>
+                                <td>Ron Viejo de Caldas</td>
+                                <td>28</td>
+                                <td>$700,000</td>
+                                <td>$490,000</td>
+                                <td>$210,000</td>
+                                <td class="trend-up">30%</td>
+                                <td><span class="badge badge-success">Mantener</span></td>
+                            </tr>
+                            <tr>
+                                <td>Tequila José Cuervo</td>
+                                <td>15</td>
+                                <td>$450,000</td>
+                                <td>$360,000</td>
+                                <td>$90,000</td>
+                                <td class="trend-down">20%</td>
+                                <td><span class="badge badge-warning">Promocionar</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Análisis de Horarios y Tendencia -->
+                <div class="analysis-cards">
+                    <div class="analysis-card">
+                        <div class="analysis-header">
+                            <h4>Distribución de Ventas por Horario</h4>
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="analysis-content">
+                            <div class="time-slot">
+                                <span class="time-range">08:00-12:00</span>
+                                <div class="time-bar">
+                                    <div class="time-fill" style="width: 15%"></div>
+                                </div>
+                                <span class="time-percent">15%</span>
+                            </div>
+                            <div class="time-slot">
+                                <span class="time-range">12:00-16:00</span>
+                                <div class="time-bar">
+                                    <div class="time-fill" style="width: 25%"></div>
+                                </div>
+                                <span class="time-percent">25%</span>
+                            </div>
+                            <div class="time-slot">
+                                <span class="time-range">16:00-20:00</span>
+                                <div class="time-bar">
+                                    <div class="time-fill" style="width: 45%"></div>
+                                </div>
+                                <span class="time-percent">45%</span>
+                            </div>
+                            <div class="time-slot">
+                                <span class="time-range">20:00-24:00</span>
+                                <div class="time-bar">
+                                    <div class="time-fill" style="width: 15%"></div>
+                                </div>
+                                <span class="time-percent">15%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="analysis-card">
+                        <div class="analysis-header">
+                            <h4>Productos con Mayor Rotación</h4>
+                            <i class="fas fa-sync-alt"></i>
+                        </div>
+                        <div class="analysis-content">
+                            <div class="rotation-item">
+                                <span class="product-name">Cerveza Corona</span>
+                                <span class="rotation-rate">8.2x</span>
+                            </div>
+                            <div class="rotation-item">
+                                <span class="product-name">Whisky J. Walker</span>
+                                <span class="rotation-rate">6.5x</span>
+                            </div>
+                            <div class="rotation-item">
+                                <span class="product-name">Vodka Absolut</span>
+                                <span class="rotation-rate">5.8x</span>
+                            </div>
+                            <div class="rotation-item">
+                                <span class="product-name">Vino Casillero</span>
+                                <span class="rotation-rate">4.9x</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Generador de Reportes Personalizados -->
+                <div class="form-container">
+                    <div class="form-header">
+                        <h3>Generar Reporte Personalizado</h3>
+                        <p>Seleccione los parámetros para generar un reporte específico</p>
+                    </div>
+                    <form id="form-reporte">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="report-type">Tipo de Reporte</label>
+                                <select class="form-control" id="report-type" name="tipo_reporte" required>
+                                    <option value="">Seleccione tipo</option>
+                                    <option value="sales">Análisis de Ventas</option>
+                                    <option value="inventory">Análisis de Inventario</option>
+                                    <option value="profitability">Rentabilidad</option>
+                                    <option value="trends">Tendencias</option>
+                                    <option value="comparative">Comparativo</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="report-period">Período</label>
+                                <select class="form-control" id="report-period" name="periodo" required>
+                                    <option value="today">Hoy</option>
+                                    <option value="week">Esta Semana</option>
+                                    <option value="month" selected>Este Mes</option>
+                                    <option value="quarter">Este Trimestre</option>
+                                    <option value="year">Este Año</option>
+                                    <option value="custom">Personalizado</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row" id="custom-dates" style="display: none;">
+                            <div class="form-group">
+                                <label for="report-start">Fecha Inicio</label>
+                                <input type="date" class="form-control" id="report-start" name="fecha_inicio">
+                            </div>
+                            <div class="form-group">
+                                <label for="report-end">Fecha Fin</label>
+                                <input type="date" class="form-control" id="report-end" name="fecha_fin">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="report-format">Formato de Salida</label>
+                                <select class="form-control" id="report-format" name="formato">
+                                    <option value="web">Vista Web</option>
+                                    <option value="pdf">PDF</option>
+                                    <option value="excel">Excel</option>
+                                    <option value="csv">CSV</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="report-category">Filtrar por Categoría</label>
+                                <select class="form-control" id="report-category" name="categoria">
+                                    <option value="">Todas las categorías</option>
+                                    <option value="whisky">Whisky</option>
+                                    <option value="vino">Vino</option>
+                                    <option value="vodka">Vodka</option>
+                                    <option value="ron">Ron</option>
+                                    <option value="cerveza">Cerveza</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-buttons">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-chart-bar"></i> Generar Reporte
+                            </button>
+                            <button type="button" class="btn btn-secondary" id="btn-limpiar">
+                                <i class="fas fa-broom"></i> Limpiar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // ========== NAVEGACIÓN DEL SIDEBAR ==========
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            // Manejador de clic en items del menú
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const moduleId = this.getAttribute('data-module');
+                    
+                    // Navegar a la página correspondiente
+                    switch(moduleId) {
+                        case 'dashboard':
+                            window.location.href = "{% url 'panel' %}";
+                            break;
+                        case 'inventory':
+                            window.location.href = "{% url 'inventario' %}";
+                            break;
+                        case 'sales':
+                            window.location.href = "{% url 'registro_v' %}";
+                            break;
+                        case 'reports':
+                            window.location.href = "{% url 'reporte' %}";
+                            break;
+                        case 'products':
+                            window.location.href = "{% url 'catalogo' %}";
+                            break;
+                        default:
+                            console.log('Módulo no reconocido:', moduleId);
+                    }
+                });
+            });
+
+            const reportPeriod = document.getElementById('report-period');
+            const customDates = document.getElementById('custom-dates');
+            const formReporte = document.getElementById('form-reporte');
+            const btnLimpiar = document.getElementById('btn-limpiar');
+            
+            // Mostrar/ocultar fechas personalizadas
+            reportPeriod.addEventListener('change', function() {
+                if (this.value === 'custom') {
+                    customDates.style.display = 'flex';
+                } else {
+                    customDates.style.display = 'none';
+                }
+            });
+            
+            // Manejar envío del formulario de reportes
+            formReporte.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const formData = new FormData(this);
+                const reporteConfig = {
+                    tipo: formData.get('tipo_reporte'),
+                    periodo: formData.get('periodo'),
+                    formato: formData.get('formato'),
+                    categoria: formData.get('categoria'),
+                    fecha_inicio: formData.get('fecha_inicio'),
+                    fecha_fin: formData.get('fecha_fin')
+                };
+                
+                console.log('Configuración de reporte:', reporteConfig);
+                
+                // Simular generación de reporte
+                setTimeout(() => {
+                    alert(`Reporte ${reporteConfig.tipo} generado exitosamente en formato ${reporteConfig.formato}`);
+                }, 1000);
+            });
+            
+            // Limpiar formulario
+            btnLimpiar.addEventListener('click', function() {
+                formReporte.reset();
+                customDates.style.display = 'none';
+            });
+            
+            // Establecer fechas por defecto para período personalizado
+            const today = new Date();
+            const lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
+            
+            document.getElementById('report-start').value = lastMonth.toISOString().split('T')[0];
+            document.getElementById('report-end').value = today.toISOString().split('T')[0];
+            
+            // Simular animaciones de carga para las cards
+            document.querySelectorAll('.card').forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+
+            console.log('Módulo de Reportes LicoControl - Cargado correctamente');
+        });
+
+        // ========== FUNCIONES GLOBALES ==========
+        function navigateTo(url) {
+            window.location.href = url;
+        }
+    </script>
+</body>
+</html>
